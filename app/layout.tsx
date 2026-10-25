@@ -4,7 +4,7 @@ import "./globals.css";
 export const metadata: Metadata = {
   title: "Happy Anniversary, My Love ♡",
   description:
-    "Our love story began on November 25, 2025 — a romantic gift made just for you.",
+    "Our love story began on October 26, 2025 — a romantic gift made just for you.",
   icons: {
     icon: [
       { url: "/heart.svg", type: "image/svg+xml" },

@@ -64,19 +64,19 @@ export const couple = {
  * The moment your story began. The live counter in the hero ticks up from here.
  * Format: YYYY-MM-DDTHH:mm:ss (local time).
  */
-export const relationshipStart = "2025-11-25T00:00:00";
+export const relationshipStart = "2025-10-26T00:00:00";
 
 // ─── Passcode gate ───────────────────────────────────────────────────────────
 
 export const gate = {
-  /** 8 digits, DDMMYYYY — 25 November 2025 → "25112025". */
-  passcode: "25112025",
+  /** 8 digits, DDMMYYYY — 26 October 2025 → "26102025". */
+  passcode: "26102025",
   eyebrow: "A little something, just for you",
   title: "For Your Eyes Only",
   prompt: "Enter the day our forever began",
   format: "DD · MM · YYYY",
   /** Shown after a few wrong attempts. */
-  hint: "Think of November 25, 2025… the day our hearts connected. ♡",
+  hint: "Think of October 26, 2025… the day our hearts connected. ♡",
   wrongMessage: "Not quite, my love — try once more.",
   successMessage: "Welcome home, my love.",
   /** Keep her unlocked for the rest of the browser session. */
@@ -86,12 +86,12 @@ export const gate = {
 // ─── Hero ────────────────────────────────────────────────────────────────────
 
 export const hero = {
-  eyebrow: "25 · 11 · 2025 — Forever",
+  eyebrow: "26 · 10 · 2025 — Forever",
   /** Rendered as: "{titleLead} {titleAccent}" with the accent in italic rose. */
   titleLead: "Happy Anniversary,",
   titleAccent: "My Love",
   subtitle:
-    "From November 25, 2025 to forever — every second of this journey is a quiet miracle I get to call ours.",
+    "From October 26, 2025 to forever — every second of this journey is a quiet miracle I get to call ours.",
   counterLabel: "Together for",
   counterFootnote: "and counting, one heartbeat at a time",
   scrollCue: "Scroll to our story",
@@ -108,7 +108,7 @@ export const timelineSection = {
 
 export const milestones: Milestone[] = [
   {
-    date: "November 25, 2025",
+    date: "October 26, 2025",
     title: "Our First Day of Love",
     memory:
       "The unforgettable day our hearts connected and our love story officially began. A single moment that quietly and beautifully rewrote the rest of my life.",
@@ -240,7 +240,7 @@ export const reasons: string[] = [
   "You never let me go to sleep angry — and you're always right about that.",
   "Your hugs fix things that words can't.",
   "You make me want to be a better man, simply by being you.",
-  "Because every single day since November 25, 2025, you still give me butterflies.",
+  "Because every single day since October 26, 2025, you still give me butterflies.",
 ];
 
 // ─── Love letter ─────────────────────────────────────────────────────────────
@@ -254,10 +254,10 @@ export const letterSection = {
 };
 
 export const letter = {
-  date: "October 25, 2026",
+  date: "October 26, 2026",
   salutation: "My dearest love,",
   paragraphs: [
-    "When our love story officially began on November 25, 2025, I knew that my life had changed forever. Every single day since then has made me more grateful and more deeply in love than words could ever capture.",
+    "When our love story officially began on October 26, 2025, I knew that my life had changed forever. Every single day since then has made me more grateful and more deeply in love than words could ever capture.",
     "Thank you for every early morning and every late night. For the patience you've shown me when I didn't deserve it, and the laughter you've given me when I needed it most. You have turned a house into a home, and a life into a story worth telling.",
     "I love the way you dream out loud. I love how fiercely you care. I love that, even now, my heart does that silly little skip whenever you walk into a room.",
     "Whatever the next chapters hold — the adventures, the quiet Sundays, the hard days and the golden ones — I want to live every single page of it beside you.",
@@ -284,5 +284,5 @@ export const music = {
 
 export const footer = {
   line: "Made with all my love, for the love of my life.",
-  signoff: "Our Love Story · Since November 25, 2025",
+  signoff: "Our Love Story · Since October 26, 2025",
 };
