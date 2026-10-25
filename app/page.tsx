@@ -1,69 +1,140 @@
-import Image from "next/image";
+"use client";
+
+import { useEffect, useState } from "react";
+import { AnimatePresence, motion } from "framer-motion";
+import { Heart } from "lucide-react";
+import { couple, gate, music } from "@/config/data";
+import { celebrate } from "@/lib/confetti";
+import { useAmbientAudio } from "@/hooks/useAmbientAudio";
+import { PasscodeGate } from "@/components/PasscodeGate";
+import { HeroSection } from "@/components/HeroSection";
+import { StoryTimeline } from "@/components/StoryTimeline";
+import { PhotoGallery } from "@/components/PhotoGallery";
+import { ReasonsDeck } from "@/components/ReasonsDeck";
+import { LoveLetter } from "@/components/LoveLetter";
+import { AmbientPlayer } from "@/components/AmbientPlayer";
+import { Footer } from "@/components/Footer";
 
 export default function Home() {
+  const [isUnlocked, setIsUnlocked] = useState(false);
+  const [hasCheckedSession, setHasCheckedSession] = useState(false);
+  const { audioRef, playing, play, pause, toggle } = useAmbientAudio(music.volume);
+
+  useEffect(() => {
+    if (gate.rememberForSession) {
+      const saved = sessionStorage.getItem("anniversary_unlocked");
+      if (saved === "true") {
+        setIsUnlocked(true);
+      }
+    }
+    setHasCheckedSession(true);
+  }, []);
+
+  const handleUnlock = () => {
+    setIsUnlocked(true);
+    if (gate.rememberForSession) {
+      sessionStorage.setItem("anniversary_unlocked", "true");
+    }
+    // Celebrate with romantic gold/rose confetti hearts
+    celebrate();
+
+    // Start background music seamlessly from this user gesture
+    if (music.autoplayOnUnlock) {
+      play();
+    }
+  };
+
+  const handleLock = () => {
+    setIsUnlocked(false);
+    sessionStorage.removeItem("anniversary_unlocked");
+    pause();
+  };
+
   return (
-    <div className="flex flex-col flex-1 items-center justify-center bg-zinc-50 font-sans dark:bg-black">
-      <main className="flex flex-1 w-full max-w-3xl flex-col items-center justify-between py-32 px-16 bg-white dark:bg-black sm:items-start">
-        <Image
-          className="dark:invert h-5 w-[100px]"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={100}
-          height={20}
-          priority
-        />
-        <div className="flex flex-col items-center gap-6 text-center sm:items-start sm:text-left">
-          <h1 className="max-w-xs text-3xl font-semibold leading-10 tracking-tight text-black dark:text-zinc-50">
-            To get started, edit the{" "}
-            <code className="rounded bg-black/[.06] px-1.5 py-0.5 font-mono text-[0.9em] dark:bg-white/[.08]">
-              page.tsx
-            </code>{" "}
-            file.
-          </h1>
-          <p className="max-w-md text-lg leading-8 text-zinc-600 dark:text-zinc-400">
-            Looking for a starting point or more instructions? Head over to{" "}
-            <a
-              href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Templates
-            </a>{" "}
-            or the{" "}
-            <a
-              href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Learning
-            </a>{" "}
-            center.
-          </p>
-        </div>
-        <div className="flex flex-col gap-4 text-base font-medium sm:flex-row">
-          <a
-            className="flex h-12 w-full items-center justify-center gap-2 rounded-full bg-foreground px-5 text-background transition-colors hover:bg-[#383838] dark:hover:bg-[#ccc] md:w-[158px]"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
+    <div className="relative min-h-screen bg-ivory text-charcoal selection:bg-rose/20 selection:text-burgundy">
+      {/* Hidden audio element managed by hook */}
+      <audio ref={audioRef} src={music.src} loop preload="auto" />
+
+      {/* Passcode Gate Screen */}
+      <AnimatePresence mode="wait">
+        {!isUnlocked && hasCheckedSession && (
+          <PasscodeGate key="gate-modal" onSuccess={handleUnlock} />
+        )}
+      </AnimatePresence>
+
+      {/* Main Experience (Visible when unlocked) */}
+      {isUnlocked && (
+        <motion.div
+          key="main-experience"
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ duration: 1.2, ease: [0.22, 1, 0.36, 1] }}
+          className="relative w-full overflow-hidden"
+        >
+          {/* Subtle Floating Navigation Bar */}
+          <nav
+            aria-label="Anniversary navigation"
+            className="fixed top-4 left-1/2 z-30 -translate-x-1/2 w-fit max-w-[92vw]"
           >
-            <Image
-              className="dark:invert h-[14px] w-4"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={16}
-              height={14}
-            />
-            Deploy Now
-          </a>
-          <a
-            className="flex h-12 w-full items-center justify-center rounded-full border border-solid border-black/[.08] px-5 transition-colors hover:border-transparent hover:bg-black/[.04] dark:border-white/[.145] dark:hover:bg-[#1a1a1a] md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Documentation
-          </a>
-        </div>
-      </main>
+            <div className="glass flex items-center gap-4 sm:gap-6 rounded-full px-5 py-2.5 shadow-soft">
+              <span className="flex items-center gap-1.5 font-serif text-sm font-medium text-burgundy">
+                <Heart className="size-3.5 fill-burgundy text-burgundy" />
+                <span>Forever</span>
+              </span>
+
+              <div className="hidden sm:flex items-center gap-5 text-[0.7rem] uppercase tracking-[0.2em] text-taupe">
+                <a
+                  href="#story-timeline"
+                  className="transition-colors hover:text-burgundy"
+                >
+                  Story
+                </a>
+                <a
+                  href="#photo-gallery"
+                  className="transition-colors hover:text-burgundy"
+                >
+                  Gallery
+                </a>
+                <a
+                  href="#reasons"
+                  className="transition-colors hover:text-burgundy"
+                >
+                  Reasons
+                </a>
+                <a
+                  href="#love-letter"
+                  className="transition-colors hover:text-burgundy"
+                >
+                  Letter
+                </a>
+              </div>
+            </div>
+          </nav>
+
+          <main className="w-full">
+            {/* 1. Hero with live counter */}
+            <HeroSection />
+
+            {/* 2. Alternating Story Timeline */}
+            <StoryTimeline />
+
+            {/* 3. Interactive Bento / Polaroid Photo Gallery with back flip notes */}
+            <PhotoGallery />
+
+            {/* 4. Reasons Why I Love You Interactive Deck */}
+            <ReasonsDeck />
+
+            {/* 5. The Sealed Love Letter with 3D Wax Seal */}
+            <LoveLetter />
+          </main>
+
+          {/* 6. Footer */}
+          <Footer onLock={handleLock} />
+
+          {/* 7. Floating Ambient Vinyl Player */}
+          <AmbientPlayer playing={playing} onToggle={toggle} />
+        </motion.div>
+      )}
     </div>
   );
 }
